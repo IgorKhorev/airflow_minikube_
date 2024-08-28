@@ -4,6 +4,7 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.empty import EmptyOperator
 
 #
+#
 def generate_pascals_triangle(levels):
     # Начинаем с первого уровня треугольника
     triangle = [[1]]
@@ -47,6 +48,19 @@ dag = DAG(
 )
 
 #
+def print_hello():
+    #print("Hello, world")
+    # Генерируем треугольник Паскаля с 10 уровнями
+    triangle = generate_pascals_triangle(10)
+    # Печатаем треугольник Паскаля
+    print_pascals_triangle(triangle)
+       
+python_task = PythonOperator(
+   task_id = 'print_hello',
+   python_callable = print_hello,
+   dag = dag,
+)
+#
 t1 = EmptyOperator(
 task_id='dummy_task',
 retries=3,
@@ -54,3 +68,4 @@ dag=dag,
 )
 #
 
+t1 >> python_task
