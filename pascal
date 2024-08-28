@@ -42,11 +42,15 @@ dag = DAG(
     'khorev_test',
     default_args=default_args,
     description='A simple DAG for course',
-    schedule_interval='44 11 * * *',  # CRON выражение для запуска в 11:44 каждую день
+    schedule_interval='45 12 * * *',  # CRON выражение для запуска в 12:45 каждую день
     catchup=False,
 )
 
 #
-
+t1 = EmptyOperator(
+task_id='dummy_task',
+retries=3,
+dag=dag,
+)
 #
 
